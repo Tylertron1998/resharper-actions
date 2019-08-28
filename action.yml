@@ -1,0 +1,13 @@
+name: 'Resharper actions'
+description: 'Checks PRs against resharper'
+author: 'Tylertron'
+inputs:
+  SLN_DIR:
+    description: 'path to the .sln file'
+    default: '.'
+  FAIL_LEVEL:
+    description: 'Level at which CI fails.'
+    default: 'WARNING'
+runs:
+  using: 'node12'
+  main: 'src/index.js'
