@@ -3021,8 +3021,6 @@ module.exports = bytesToUuid;
 /***/ 346:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const DOWNLOAD_URL = `https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`;
-
 const toolcache = __webpack_require__(639);
 const core = __webpack_require__(669);
 const { exec } = __webpack_require__(837);
@@ -3032,7 +3030,7 @@ const os = __webpack_require__(87);
 function getInspector() {
 	if (!toolcache.find('inspectcode')) {
 		core.debug('Downloading inspectcode...');
-		const downloadedPath = toolcache.downloadTool(DOWNLOAD_URL);
+		const downloadedPath = toolcache.downloadTool(`https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`);
 		const extractedFolder = toolcache.extractZip(downloadedPath);
 
 		const cachedPath = toolcache.cacheDir(extractedFolder);
