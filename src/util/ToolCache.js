@@ -1,8 +1,9 @@
-const DOWNLOAD_URL = 'https://www.jetbrains.com/resharper/download/download-thanks.html?platform=windows&code=RSCLT';
+const DOWNLOAD_URL = `https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`;
 
 const toolcache = require('@actions/tool-cache');
 const core = require('@actions/core');
 const { exec } = require('@actions/exec');
+const os = require('os');
 
 
 function getInspector() {
@@ -15,6 +16,15 @@ function getInspector() {
 		core.addPath(cachedPath);
 	}
 	core.debug('using cached inspectcode.');
+}
+
+function getCorrectPlatformString() {
+	const osString = os.platform();
+	switch(osString) {
+		case "win32": return "windows";
+		case "darwin": return "macos";
+		case "linux": return "linux";
+	}
 }
 
 async function runInspector(solutionDirectory) {
