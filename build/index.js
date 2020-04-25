@@ -3049,8 +3049,12 @@ function getCorrectPlatformString() {
 }
 
 async function runInspector(solutionDirectory) {
-	getInspector();
+	try {
+		getInspector();
 	await exec('inspectcode', [solutionDirectory, `-o="./"`]);
+	} catch(e) {
+		console.error(e);
+	}
 }
 
 module.exports = { runInspector, getInspector };
