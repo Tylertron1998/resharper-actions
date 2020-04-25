@@ -3028,7 +3028,7 @@ const os = __webpack_require__(87);
 
 
 function getInspector() {
-	if (!toolcache.find('inspectcode')) {
+	if (!toolcache.find('inspectcode', "1.0.0")) {
 		core.debug('Downloading inspectcode...');
 		const downloadedPath = toolcache.downloadTool(`https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`);
 		const extractedFolder = toolcache.extractZip(downloadedPath);
