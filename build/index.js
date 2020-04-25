@@ -3033,7 +3033,7 @@ function getInspector() {
 		const downloadedPath = toolcache.downloadTool(`https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`);
 		const extractedFolder = toolcache.extractZip(downloadedPath);
 
-		const cachedPath = toolcache.cacheDir(extractedFolder);
+		const cachedPath = toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0");
 		core.addPath(cachedPath);
 	}
 	core.debug('using cached inspectcode.');
