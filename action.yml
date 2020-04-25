@@ -1,5 +1,5 @@
-name: 'Resharper actions'
-description: 'Checks PRs against resharper'
+name: 'Resharper Actions'
+description: 'Runs Resharper configurably on CI.'
 author: 'Tylertron'
 inputs:
   SLN_DIR:
@@ -10,4 +10,4 @@ inputs:
     default: 'WARNING'
 runs:
   using: 'node12'
-  main: 'src/index.js'
+  main: 'build/index.js'
