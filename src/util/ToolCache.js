@@ -11,6 +11,7 @@ async function getInspector() {
 		const extractedFolder = toolcache.extractZip(downloadedPath);
 
 		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0");
+		console.log(cachedPath);
 		core.addPath(cachedPath);
 	}
 	core.debug('using cached inspectcode.');
