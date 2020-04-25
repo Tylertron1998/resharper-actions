@@ -10,4 +10,4 @@ inputs:
     default: 'WARNING'
 runs:
   using: 'node13.3'
-  main: 'src/index.js --harmony-top-level-await'
+  main: 'src/index.js'
