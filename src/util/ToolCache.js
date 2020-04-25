@@ -6,13 +6,13 @@ const os = require('os');
 
 async function getInspector() {
 	if (!toolcache.find('inspectcode', "1.0.0")) {
-		core.debug('Downloading inspectcode...');
+		console.log('Downloading inspectcode...');
 		const downloadedPath = await toolcache.downloadTool(`https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`);
-		core.debug(`Download Path: ${downloadedPath}`);
+		console.log(`Download Path: ${downloadedPath}`);
 		const extractedFolder = await toolcache.extractZip(downloadedPath);
-		core.debug(`Extracted Folder: ${extractedFolder}`);
+		console.log(`Extracted Folder: ${extractedFolder}`);
 		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0");
-		core.debug(`Cached Path: ${cachedPath}`);
+		console.log(`Cached Path: ${cachedPath}`);
 		core.addPath(cachedPath);
 	}
 	core.debug('using cached inspectcode.');
