@@ -6,7 +6,7 @@ const fs = require('fs');
 const solutionDirectory = core.getInput('SLN_DIR');
 const failureLevel = core.getInput('FAIL_LEVEL');
 
-runInspector(solutionDirectory);
+await runInspector(solutionDirectory);
 
 const contents = fs.readFileSync('./output.xml', { encoding: 'utf8' });
 const parser = new Parser(contents, failureLevel);

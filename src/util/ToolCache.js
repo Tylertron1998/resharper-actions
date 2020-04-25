@@ -4,13 +4,13 @@ const { exec } = require('@actions/exec');
 const os = require('os');
 
 
-function getInspector() {
+async function getInspector() {
 	if (!toolcache.find('inspectcode', "1.0.0")) {
 		core.debug('Downloading inspectcode...');
 		const downloadedPath = toolcache.downloadTool(`https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`);
 		const extractedFolder = toolcache.extractZip(downloadedPath);
 
-		const cachedPath = toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0");
+		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0");
 		core.addPath(cachedPath);
 	}
 	core.debug('using cached inspectcode.');
@@ -27,7 +27,7 @@ function getCorrectPlatformString() {
 
 async function runInspector(solutionDirectory) {
 	try {
-		getInspector();
+		await getInspector();
 	await exec('inspectcode', [solutionDirectory, `-o="./"`]);
 	} catch(e) {
 		console.error(e);
