@@ -3021,11 +3021,12 @@ module.exports = bytesToUuid;
 /***/ 346:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const DOWNLOAD_URL = 'https://www.jetbrains.com/resharper/download/download-thanks.html?platform=windows&code=RSCLT';
+const DOWNLOAD_URL = `https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`;
 
 const toolcache = __webpack_require__(639);
 const core = __webpack_require__(669);
 const { exec } = __webpack_require__(837);
+const os = __webpack_require__(87);
 
 
 function getInspector() {
@@ -3038,6 +3039,15 @@ function getInspector() {
 		core.addPath(cachedPath);
 	}
 	core.debug('using cached inspectcode.');
+}
+
+function getCorrectPlatformString() {
+	const osString = os.platform();
+	switch(osString) {
+		case "win32": return "windows";
+		case "darwin": return "macos";
+		case "linux": return "linux";
+	}
 }
 
 async function runInspector(solutionDirectory) {
