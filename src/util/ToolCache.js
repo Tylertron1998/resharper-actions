@@ -2,6 +2,7 @@ const toolcache = require('@actions/tool-cache');
 const core = require('@actions/core');
 const { exec } = require('@actions/exec');
 const os = require('os');
+const fs = require('fs');
 
 
 async function getInspector() {
@@ -10,6 +11,11 @@ async function getInspector() {
 		console.log(`Downloading inspectcode from ${url}`);
 		const downloadedPath = await toolcache.downloadTool(url);
 		console.log(`Download Path: ${downloadedPath}`);
+		fs.readdir(downloadedPath, _, dir => {
+			for(let i = 0; i < dir.length; i++) {
+				console.log(`\n\nfile: ${dir[i]}\n\n`);
+			}
+		});
 		const extractedFolder = await toolcache.extractZip(downloadedPath);
 		console.log(`Extracted Folder: ${extractedFolder}`);
 		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0", getCorrectPlatformString());
