@@ -2,44 +2,88 @@ const toolcache = require('@actions/tool-cache');
 const core = require('@actions/core');
 const { exec } = require('@actions/exec');
 const os = require('os');
-const fs = require('fs');
+const fetch = require('node-fetch');
+const { inspect } = require('util');
 
+const toolUrl = "https://data.services.jetbrains.com/products/releases?code=RSCLT&latest=true&type=release";
 
 async function getInspector() {
-	if (!toolcache.find('inspectcode', "1.0.0")) {
-		const url = `https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}&code=RSCLT`;
-		console.log(`Downloading inspectcode from ${url}`);
+	
+	const platform = getCorrectPlatformString();
+	const downloadData = await getDownloadInfo();
+	let inspectCodeDirectory = toolcache.find('RSCLT', downloadData.version, platform);
+	
+	if (!inspectCodeDirectory) {
+
+		const url = downloadData.downloads[platform].link;
+
+		core.debug('Cached Resharper Command Line Tools not found.');
+		core.debug(`Downloading Resharper Command Line Tools from ${url}`);
+		
 		const downloadedPath = await toolcache.downloadTool(url);
-		console.log(`Download Path: ${downloadedPath}`);
-		fs.stat(downloadPath, (_, stat) => {
-			console.log(stat.size);
-			console.log(stat);
-		});
+		core.debug(`Download Path: ${downloadedPath}`);
+		
 		const extractedFolder = await toolcache.extractZip(downloadedPath);
-		console.log(`Extracted Folder: ${extractedFolder}`);
-		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0", getCorrectPlatformString());
-		console.log(`Cached Path: ${cachedPath}`);
-		core.addPath(cachedPath);
+		core.debug(`Extracted Folder: ${extractedFolder}`);
+		
+		inspectCodeDirectory = await toolcache.cacheDir(extractedFolder, "RSCLT", downloadData.version, platform);
+		core.debug(`Cached Path: ${inspectCodeDirectory}`);
+	} else {
+		core.debug('Using cached Resharper Command Line Tools.');
 	}
-	core.debug('using cached inspectcode.');
+
+	core.addPath(inspectCodeDirectory);
+	
+}
+
+async function getDownloadInfo() {
+	const downloads = await fetch(toolUrl).then(res => {
+		if(!res.ok) {
+			core.setFailed(res.statusText);
+		} else {
+			return res.json();
+		}
+	});
+
+	const [data] = downloads.RSCLT;
+	return data;
+
 }
 
 function getCorrectPlatformString() {
 	const osString = os.platform();
 	switch(osString) {
 		case "win32": return "windows";
-		case "darwin": return "macos";
+		case "darwin": return "mac";
 		case "linux": return "linux";
 	}
 }
 
 async function runInspector(solutionDirectory) {
+
+	let stdout = "";
+	let stderr = "";
+
+	const options = {
+		listeners: {
+			stdout: (data) => {
+				stdout += data.toString();
+			},
+			stderr: (data) => {
+				stderr += data.toString();
+			}
+		}
+	}
+
 	try {
 		await getInspector();
-	await exec('inspectcode', [solutionDirectory, `-o="./"`]);
+	await exec('inspectcode', [solutionDirectory, `-o="./output.xml"`], options);
 	} catch(e) {
-		console.error(e);
+		core.error(stderr);
+		console.error(stderr);
+		core.setFailed(e);
 	}
+	core.debug(stdout);
 }
 
 module.exports = { runInspector, getInspector };

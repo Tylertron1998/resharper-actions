@@ -4,21 +4,21 @@ const { runInspector } = require('../util/ToolCache');
 const fs = require('fs');
 
 module.exports = class Inspector {
+    
     async run() {
+        const solutionDirectory = core.getInput('SLN_DIR', { required: true });
+        const failureLevel = core.getInput('FAILURE_LEVEL', { required: true });
 
-    const solutionDirectory = core.getInput('SLN_DIR');
-    const failureLevel = core.getInput('FAIL_LEVEL');
+        await runInspector(solutionDirectory);
 
-    await runInspector(solutionDirectory);
+        const contents = fs.readFileSync('./output.xml', { encoding: 'utf8' });
+        const parser = new Parser(contents, failureLevel);
 
-    const contents = fs.readFileSync('./output.xml', { encoding: 'utf8' });
-    const parser = new Parser(contents, failureLevel);
+        parser.parse();
 
-    parser.parse();
-
-    if (parser.hasFailed) {
-        parser.showErrors();
-        core.setFailed('Resharper failed. Check log output.');
+        if (parser.hasFailed) {
+            parser.showErrors();
+            core.setFailed('Resharper failed. Check log output.');
+        }
     }
-}
 }

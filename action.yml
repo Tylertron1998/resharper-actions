@@ -10,4 +10,4 @@ inputs:
     default: 'WARNING'
 runs:
   using: 'node12'
-  main: 'src/index.js'
+  main: 'build/index.js'

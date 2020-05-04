@@ -1,2 +1,11 @@
 package-lock.json
 src/output.xml
+node_modules
+cache
+temp
+
+tests/testProjects/BasicTest/.idea/.idea.BasicTest/.idea/
+
+tests/testProjects/BasicTest/.idea/.idea.BasicTest/
+
+tests/testProjects/BasicTest/BasicTest/obj/
