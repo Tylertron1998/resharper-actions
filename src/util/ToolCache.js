@@ -11,7 +11,7 @@ async function getInspector() {
 		console.log(`Downloading inspectcode from ${url}`);
 		const downloadedPath = await toolcache.downloadTool(url);
 		console.log(`Download Path: ${downloadedPath}`);
-		const extractedFolder = await toolcache.extractZip(downloadedPath, "/resharper");
+		const extractedFolder = await toolcache.extractZip(downloadedPath);
 		console.log(`Extracted Folder: ${extractedFolder}`);
 		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0", getCorrectPlatformString());
 		console.log(`Cached Path: ${cachedPath}`);
