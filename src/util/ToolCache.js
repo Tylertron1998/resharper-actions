@@ -7,7 +7,7 @@ const fs = require('fs');
 
 async function getInspector() {
 	if (!toolcache.find('inspectcode', "1.0.0")) {
-		const url = `https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}`;
+		const url = `https://www.jetbrains.com/resharper/download/download-thanks.html?platform=${getCorrectPlatformString()}&code=RSCLT`;
 		console.log(`Downloading inspectcode from ${url}`);
 		const downloadedPath = await toolcache.downloadTool(url);
 		console.log(`Download Path: ${downloadedPath}`);
