@@ -12,7 +12,7 @@ async function getInspector() {
 		console.log(`Download Path: ${downloadedPath}`);
 		const extractedFolder = await toolcache.extractZip(downloadedPath);
 		console.log(`Extracted Folder: ${extractedFolder}`);
-		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0");
+		const cachedPath = await toolcache.cacheDir(extractedFolder, "inspectcode", "1.0.0", getCorrectPlatformString());
 		console.log(`Cached Path: ${cachedPath}`);
 		core.addPath(cachedPath);
 	}
