@@ -11,7 +11,7 @@ async function getInspector() {
 		console.log(`Downloading inspectcode from ${url}`);
 		const downloadedPath = await toolcache.downloadTool(url);
 		console.log(`Download Path: ${downloadedPath}`);
-		fs.readdir(downloadedPath, _, dir => {
+		fs.readdir(downloadedPath, (_, dir) => {
 			for(let i = 0; i < dir.length; i++) {
 				console.log(`\n\nfile: ${dir[i]}\n\n`);
 			}
