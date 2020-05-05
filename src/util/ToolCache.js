@@ -72,15 +72,15 @@ async function runInspector(solutionDirectory) {
 			stderr: (data) => {
 				stderr += data.toString();
 			}
-		}
-	}
+		},
+		silent: true
+	};
 
 	try {
 		await getInspector();
 	await exec('inspectcode', [solutionDirectory, `-o="./output.xml"`], options);
 	} catch(e) {
 		core.error(stderr);
-		console.error(stderr);
 		core.setFailed(e);
 	}
 	core.debug(stdout);
