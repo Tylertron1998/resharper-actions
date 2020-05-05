@@ -3,6 +3,7 @@ src/output.xml
 node_modules
 cache
 temp
+output.xml
 
 tests/testProjects/BasicTest/.idea/.idea.BasicTest/.idea/
 
