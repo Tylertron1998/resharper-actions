@@ -11,7 +11,7 @@ module.exports = class Inspection {
 	}
 
 	toString() {
-		return `${this.Line}(${this.file},${this.line}): ${this.message}${this.issue.description ? ` (${this.issue.description})` : ''}.`;
+		return `${this.file}(${this.line},${this.line}): ${this.message}${this.issue.description ? ` (${this.issue.description})` : ''}.`;
 	}
 
 };
