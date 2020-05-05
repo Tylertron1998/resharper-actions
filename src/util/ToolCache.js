@@ -17,19 +17,19 @@ async function getInspector() {
 
 		const url = downloadData.downloads[platform].link;
 
-		core.log('Cached Resharper Command Line Tools not found.');
-		core.log(`Downloading Resharper Command Line Tools from ${url}`);
+		core.info('Cached Resharper Command Line Tools not found.');
+		core.info(`Downloading Resharper Command Line Tools from ${url}`);
 		
 		const downloadedPath = await toolcache.downloadTool(url);
-		core.log(`Download Path: ${downloadedPath}`);
+		core.info(`Download Path: ${downloadedPath}`);
 		
 		const extractedFolder = await toolcache.extractZip(downloadedPath);
-		core.log(`Extracted Folder: ${extractedFolder}`);
+		core.info(`Extracted Folder: ${extractedFolder}`);
 		
 		inspectCodeDirectory = await toolcache.cacheDir(extractedFolder, "RSCLT", downloadData.version, platform);
-		core.log(`Cached Path: ${inspectCodeDirectory}`);
+		core.info(`Cached Path: ${inspectCodeDirectory}`);
 	} else {
-		core.log('Using cached Resharper Command Line Tools.');
+		core.info('Using cached Resharper Command Line Tools.');
 	}
 
 	core.addPath(inspectCodeDirectory);
